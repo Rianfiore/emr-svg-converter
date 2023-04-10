@@ -19,7 +19,7 @@ export default function RootLayout({
 
       <GlobalStyle />
       <body>
-        <ThemeContext theme="defaultTheme">
+        <ThemeContext theme="revalida">
           <Header />
           {children}
         </ThemeContext>

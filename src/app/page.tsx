@@ -1,16 +1,17 @@
 "use client";
 
-import { CodeEditor } from "@/components";
+import { CodeEditor, SVGPreview } from "@/components";
 import { ConvertSvgToReactComponentUseCase } from "@/.core/useCases/convert-to-react-component.use-case";
 import { SvgConverterGateway } from "@/.core/gateways/svgConverter.gateway";
 import { useState } from "react";
-import { convertHexToEMRTheme } from "@/.scripts/convertHexToEmrTheme";
+import { convertHexToEMRTheme } from "@/.scripts/convertHexToEMRTheme";
 import * as S from "./page.styles";
 import { Button } from "@/components/button";
 
 export default function Home() {
   const [inputCode, setInputCode] = useState<string>();
   const [outputCode, setOutputCode] = useState<string>();
+  const [svgTags, setSvgTags] = useState<string>()
 
   function handleConvertSvg() {
     const convertSvgToTsxUseCase = new ConvertSvgToReactComponentUseCase(
@@ -20,15 +21,17 @@ export default function Home() {
     convertSvgToTsxUseCase
       .execute({ code: inputCode ?? "", componentName: "SVGComponent" })
       .then((outputCodeResponse) => {
-        const outputCodeWithTheme = convertHexToEMRTheme(outputCodeResponse);
-        setOutputCode(outputCodeWithTheme);
-      }).catch(() => {
-        
+        const {codeOnlySvgTags, componentCode} = convertHexToEMRTheme(outputCodeResponse);
+        setOutputCode(componentCode);
+        setSvgTags(codeOnlySvgTags)
+      }).catch((err) => {
+        console.error(err)
       });
   }
 
   return (
     <S.Main>
+      <SVGPreview svgTags={svgTags} fallback={<div></div>}/>
       <S.Interface>
         <CodeEditor
           title="SVG INPUT"

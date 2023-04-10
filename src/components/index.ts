@@ -1,2 +1,2 @@
-export { SvgPreview } from './svgPreview';
-export { CodeEditor } from './codeEditor';
+export { SVGPreview } from "./svgPreview";
+export { CodeEditor } from "./codeEditor";

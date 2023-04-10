@@ -1,3 +1,4 @@
-export interface SvgPreviewProps {
-  codeString: string
+export interface SVGPreviewProps {
+  svgTags: string | undefined;
+  fallback: React.ReactElement;
 }
